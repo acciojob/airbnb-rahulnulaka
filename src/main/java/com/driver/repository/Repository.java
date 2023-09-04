@@ -30,9 +30,7 @@ public class Repository {
     }
 
     public String getgetHotelWithMostFacilities() {
-       listhotel.sort((a,b)->{
-           return b.getFacilities().size()-a.getFacilities().size();
-       });
+       listhotel.sort((a,b)-> b.getFacilities().size()-a.getFacilities().size());
        Hotel hotel=listhotel.get(0);
        if(hotel.getFacilities().isEmpty())return "";
        return hotel.getHotelName();
@@ -45,12 +43,18 @@ public class Repository {
         }
         int amountpaid=booking.getNoOfRooms()*hotel.getPricePerNight();
         booking.setAmountToBePaid(amountpaid);
+        if(bookingdb.containsKey(booking.getBookingAadharCard())){
+            bookingdb.put(booking.getBookingAadharCard(),bookingdb.get(booking.getBookingAadharCard())+1);
+        }
+        else{
+            bookingdb.put(booking.getBookingAadharCard(),1);
+        }
         return amountpaid;
     }
 
+
     public int getBookings(Integer aadharCard) {
         if(bookingdb.containsKey(aadharCard)){
-            bookingdb.put(aadharCard,bookingdb.get(aadharCard)+1);
             return bookingdb.get(aadharCard);
         }
         return 0;
